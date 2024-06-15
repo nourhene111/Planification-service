@@ -1,4 +1,3 @@
-
 # Stage 1: Build Node.js app
 FROM node:16 as build
 
@@ -24,7 +23,7 @@ WORKDIR /usr/src/app
 COPY --from=build /usr/src/app .
 
 # Expose port 6000 for Node.js application
-EXPOSE 11000 
+EXPOSE 3009
 
 # Start the Node.js application
 CMD ["node", "index.js"]
