@@ -10,26 +10,16 @@ pipeline {
     }
 
     stages {
-     
         stage('Install Dependencies and Run Tests') {
             steps {
                 script {
                     bat 'npm install'
-
                 }
             }
         }
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonarquabe') {
-        //             bat '"C:\\Users\\MSAR\\Desktop\\sonar-scanner-5.0.1.3006-windows\\bin\\sonar-scanner" -Dsonar.projectKey=PLANIFICATION-SERVICE'
-        //         }
-        //     }
-        // }
         stage('Build Docker Image') {
             steps {
                 script {
-                    
                     bat 'docker build -t nourhene112/planification-service1:latest .'
                 }
             }
@@ -39,7 +29,6 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', '12') {
-
                         docker.image('nourhene112/planification-service1:latest').push()
                     }
                 }
