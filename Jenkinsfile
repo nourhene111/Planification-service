@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_PATH = "C:\\Programmes\\Docker\\cli-plugins"
-        KUBECONFIG = "C:\\Program Files\\Jenkins\\.kube"
+        KUBECONFIG = "C:\\Program Files\\Jenkins\\.kube\\config"
         PATH = "${DOCKER_PATH}:${PATH}"
        
         NODEJS_PATH = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Node.js"
