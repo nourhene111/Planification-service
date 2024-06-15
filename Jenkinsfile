@@ -30,6 +30,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', '12') {
+                    docker.login
                         docker.image('nourhene112/planification-service1:latest').push()
                     }
                 }
