@@ -56,24 +56,7 @@ pipeline {
             }
         }
     }
-    stage('SonarQube Analysis') {
-            environment {
-                scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            }
-            steps {
-                script {
-                    withSonarQubeEnv('SonarQube') {
-                        bat """
-                        ${scannerHome}\\bin\\sonar-scanner \
-                          -Dsonar.projectKey=my_project_key \
-                          -Dsonar.sources=. \
-                          -Dsonar.host.url=http://localhost:9000 \
-                          -Dsonar.login=ysqa_c37f8c300599e0bc8c6ae7db45f8dc40db9abb0b
-                        """
-                    }
-                }
-            }
-        }
+  
 
     post {
         always {
