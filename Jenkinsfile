@@ -5,11 +5,15 @@ pipeline {
         DOCKER_PATH = "C:\\Programmes\\Docker\\cli-plugins"
         KUBECONFIG = "C:\\Program Files\\Jenkins\\.kube\\config"
         PATH = "${DOCKER_PATH};${PATH}"
-        NODEJS_PATH = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Node.js"
-        // Le scanner SonarQube sera installé automatiquement via Jenkins
+        NODEJS_PATH = "C:\\Program Files\\nodejs"
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Install Dependencies and Run Tests') {
             steps {
                 script {
@@ -34,10 +38,10 @@ pipeline {
                 script {
                     withSonarQubeEnv('SonarQube') {
                         bat """
-                        ${scannerHome}/bin/sonar-scanner \
+                        ${scannerHome}\\bin\\sonar-scanner \
                           -Dsonar.projectKey=my_project_key \
                           -Dsonar.sources=. \
-                          -Dsonar.host.url=http://http://localhost:9000/\
+                          -Dsonar.host.url=http://localhost:9000 \
                           -Dsonar.login=ysqa_c37f8c300599e0bc8c6ae7db45f8dc40db9abb0b
                         """
                     }
