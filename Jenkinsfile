@@ -28,6 +28,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarquabe') {
+                        npm run sonarqube
   bat '"C:\\Users\\MSAR\\Desktop\\sonar-scanner-5.0.1.3006-windows\\bin\\sonar-scanner" -Dsonar.projectKey=remote'                    }
                 }
             }
