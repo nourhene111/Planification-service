@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarscanner') {
-                        bat "\"${SONAR_SCANNER_HOME}\\bin\\sonar-scanner\" -Dsonar.projectKey=PLANIFICATION-SERVICE"
+                        bat "npm run sonar"
                     }
                 }
             }
