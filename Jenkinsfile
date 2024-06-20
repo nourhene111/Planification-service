@@ -3,10 +3,9 @@ pipeline {
 
     environment {
         DOCKER_PATH = "C:\\Programmes\\Docker\\cli-plugins"
-        PATH = "${DOCKER_PATH}:${PATH}"
-       
-        NODEJS_PATH = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Node.js"
-        SONAR_SCANNER_HOME = "C:\Users\MSAR\Desktop\sonar-scanner-5.0.1.3006-windows"
+        PATH = "${DOCKER_PATH};${PATH}"
+        NODEJS_PATH = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Node.js"
+        SONAR_SCANNER_HOME = "C:\\Users\\MSAR\\Desktop\\sonar-scanner-5.0.1.3006-windows"
     }
 
     stages {
@@ -27,8 +26,10 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarquabe') {
-                    bat '"C:\Users\MSAR\Desktop\sonar-scanner-5.0.1.3006-windows\bin\sonar-scanner" -Dsonar.projectKey=PLANIFICATION-SERVICE'
+                script {
+                    withSonarQubeEnv('sonarscanner') {
+                        bat "\"${SONAR_SCANNER_HOME}\\bin\\sonar-scanner\" -Dsonar.projectKey=PLANIFICATION-SERVICE"
+                    }
                 }
             }
         }
@@ -43,7 +44,7 @@ pipeline {
         stage('Tag Docker Image') {
             steps {
                 script {
-                    bat "docker tag planification-serv nourhene112/planification-serv:latest"
+                    bat "docker tag nourhene112/planification-serv:%BUILD_ID% nourhene112/planification-serv:latest"
                 }
             }
         }
