@@ -27,9 +27,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('sonarscanner') {
-                        bat "npm run sonar"
-                    }
+                    withSonarQubeEnv('sonarquabe') {
+  bat '"C:\\Users\\MSAR\\Desktop\\sonar-scanner-5.0.1.3006-windows\\bin\\sonar-scanner" -Dsonar.projectKey=remote'                    }
                 }
             }
         }
