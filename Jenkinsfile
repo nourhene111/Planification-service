@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     // Utilisation des informations d'identification Docker
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-credentials-id') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'nourhene111-token') {
                         docker.image('nourhene112/planification-service1:latest').push()
                     }
                 }
