@@ -35,26 +35,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            // Définition de l'environnement SonarQube scanner
-            environment {
-                scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            }
+         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarQube') {
-                        bat """
-                        ${scannerHome}\\bin\\sonar-scanner \
-                          -Dsonar.projectKey=my_project_key \
-                          -Dsonar.sources=. \
-                          -Dsonar.host.url=http://localhost:9000 \
-                          -Dsonar.login=sqa_e3d08a92c1a464cbdbc7f2fd2af784318b2285a7
-                        """
+                    withSonarQubeEnv('SonarQube Test') {
+                        bat 'npm run sonarqube'
                     }
                 }
             }
         }
-
         stage('Publish Docker Image') {
             steps {
                 script {
