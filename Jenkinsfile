@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_PATH = "C:\\Programmes\\Docker\\cli-plugins"
         KUBECONFIG = "C:\\Program Files\\Jenkins\\.kube\\config"
-        PATH = "${DOCKER_PATH};${env.PATH}"
+        PATH = "${DOCKER_PATH};${PATH}"
         NODEJS_PATH = "C:\\Program Files\\nodejs"
     }
 
@@ -35,12 +35,13 @@ pipeline {
             }
         }
 
+        
         stage('Publish Docker Image') {
             steps {
                 script {
                     // Utilisation des informations d'identification Docker
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_id') {
-                        bat 'docker push nourhene112/planification-service1:latest'
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-credentials-id') {
+                        docker.image('nourhene112/planification-service1:latest').push()
                     }
                 }
             }
