@@ -17,6 +17,16 @@ pipeline {
             }
         }
 
+        stage('Authenticate Docker') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub_id', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        bat 'docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%'
+                    }
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -25,13 +35,31 @@ pipeline {
             }
         }
 
-        
+        stage('SonarQube Analysis') {
+            // Définition de l'environnement SonarQube scanner
+            environment {
+                scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            }
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        bat """
+                        ${scannerHome}\\bin\\sonar-scanner \
+                          -Dsonar.projectKey=my_project_key \
+                          -Dsonar.sources=. \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.login=sqa_e3d08a92c1a464cbdbc7f2fd2af784318b2285a7
+                        """
+                    }
+                }
+            }
+        }
 
         stage('Publish Docker Image') {
             steps {
                 script {
                     // Utilisation des informations d'identification Docker
-                    docker.withRegistry('https://index.docker.io/v1/', 'nourhene111-token') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-credentials-id') {
                         docker.image('nourhene112/planification-service1:latest').push()
                     }
                 }
